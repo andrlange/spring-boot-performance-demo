@@ -18,8 +18,8 @@ public class ThreadConfiguration {
     @Profile("platform-threads")
     public Executor platformThreadExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(500);
-        executor.setMaxPoolSize(700);
+        executor.setCorePoolSize(200);
+        executor.setMaxPoolSize(500);
         executor.setQueueCapacity(1000);
         executor.setThreadNamePrefix("platform-");
         executor.initialize();
