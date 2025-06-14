@@ -9,7 +9,7 @@
 ### 1. Java Platform Threads (Synchronous)
 ```bash
 # Start application
-java -jar target/thread-performance-test-1.0.0.jar --spring.profiles.active=platform-threads
+java -jar target/performance-demo-1.0.0.jar --spring.profiles.active=platform-threads
 
 # Test command
 ab -n 100000 -c 100 -g java_sync_platform.dat http://localhost:8080/java/sync?input=test
@@ -18,7 +18,7 @@ ab -n 100000 -c 100 -g java_sync_platform.dat http://localhost:8080/java/sync?in
 ### 2. Java Virtual Threads (Synchronous)
 ```bash
 # Start application
-java -jar target/thread-performance-test-1.0.0.jar --spring.profiles.active=virtual-threads
+java -jar target/performance-demo-1.0.0.jar --spring.profiles.active=virtual-threads
 
 # Test command
 ab -n 100000 -c 100 -g java_sync_virtual.dat http://localhost:8080/java/virtual?input=test
@@ -27,7 +27,7 @@ ab -n 100000 -c 100 -g java_sync_virtual.dat http://localhost:8080/java/virtual?
 ### 3. Java Asynchronous (CompletableFuture)
 ```bash
 # Start application
-java -jar target/thread-performance-test-1.0.0.jar --spring.profiles.active=platform-threads
+java -jar target/performance-demo-1.0.0.jar --spring.profiles.active=platform-threads
 
 # Test command
 ab -n 100000 -c 100 -g java_async.dat http://localhost:8080/java/async?input=test
@@ -36,7 +36,7 @@ ab -n 100000 -c 100 -g java_async.dat http://localhost:8080/java/async?input=tes
 ### 4. Kotlin Platform Threads (Synchronous)
 ```bash
 # Start application
-java -jar target/thread-performance-test-1.0.0.jar --spring.profiles.active=platform-threads
+java -jar target/performance-demo-1.0.0.jar --spring.profiles.active=platform-threads
 
 # Test command
 ab -n 100000 -c 100 -g kotlin_sync_platform.dat http://localhost:8080/kotlin/sync?input=test
@@ -45,7 +45,7 @@ ab -n 100000 -c 100 -g kotlin_sync_platform.dat http://localhost:8080/kotlin/syn
 ### 5. Kotlin Virtual Threads (Synchronous)
 ```bash
 # Start application
-java -jar target/thread-performance-test-1.0.0.jar --spring.profiles.active=virtual-threads
+java -jar target/performance-demo-1.0.0.jar --spring.profiles.active=virtual-threads
 
 # Test command
 ab -n 100000 -c 100 -g kotlin_sync_virtual.dat http://localhost:8080/kotlin/virtual?input=test
@@ -54,7 +54,7 @@ ab -n 100000 -c 100 -g kotlin_sync_virtual.dat http://localhost:8080/kotlin/virt
 ### 6. Kotlin Coroutines
 ```bash
 # Start application
-java -jar target/thread-performance-test-1.0.0.jar --spring.profiles.active=platform-threads
+java -jar target/performance-demo-1.0.0.jar --spring.profiles.active=platform-threads
 
 # Test command
 ab -n 100000 -c 100 -g kotlin_coroutines.dat http://localhost:8080/kotlin/coroutine?input=test
@@ -91,10 +91,10 @@ curl -s http://localhost:8080/actuator/threaddump > threaddump_$(date +%s).json
 ### System Resource Monitoring
 ```bash
 # Monitor CPU and memory usage
-top -p $(pgrep -f thread-performance-test)
+top -p $(pgrep -f performance-demo)
 
 # Monitor with htop (if available)
-htop -p $(pgrep -f thread-performance-test)
+htop -p $(pgrep -f performance-demo)
 ```
 
 ## Result Analysis
