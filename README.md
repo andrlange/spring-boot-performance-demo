@@ -43,7 +43,7 @@ src/
 ├── main/
 │   ├── java/
 │   │   └── cool/cfapps/performancedemo/
-│           ├── PerformanceDemoApplication.java
+│   │       ├── PerformanceDemoApplication.java
 │   │       ├── config/
 │   │       │   ├── ThreadConfiguration.java
 │   │       │   └── JacksonConfiguration.java
