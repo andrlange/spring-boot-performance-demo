@@ -1,0 +1,71 @@
+services:
+  # Application with Platform Threads
+  app-platform:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=platform-threads
+      - JAVA_OPTS=-Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=200
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - ./performance_results:/app/performance_results
+    profiles:
+      - platform
+
+  # Application with Virtual Threads
+  app-virtual:
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=virtual-threads
+      - JAVA_OPTS=-Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Djdk.virtualThreadScheduler.parallelism=16
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - ./performance_results:/app/performance_results
+    profiles:
+      - virtual
+
+  # Load testing container
+  load-tester:
+    build: .
+    depends_on:
+      - app-platform
+    entrypoint: ["tail", "-f", "/dev/null"]  # Keep container running
+    volumes:
+      - ./performance_results:/app/performance_results
+      - ./test-scripts:/app/test-scripts
+    profiles:
+      - testing
+
+  # Monitoring container with additional tools
+  monitor:
+    image: alpine:latest
+    command: tail -f /dev/null
+    volumes:
+      - ./performance_results:/results
+    environment:
+      - APP_HOST=app-platform:8080
+    profiles:
+      - monitoring
+
+# Volume for sharing results
+volumes:
+  results:
+    driver: local
+
+# Networks
+networks:
+  default:
+    driver: bridge

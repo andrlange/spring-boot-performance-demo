@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: performance-demo
+
+server:
+  port: 8080
+  tomcat:
+    threads:
+      max: 500
+      min-spare: 50
+
+# Logging configuration
+logging:
+  level:
+    cool.cfapps.performancedemo: DEBUG
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,threaddump
+  endpoint:
+    health:
+      show-details: always
+
+---
+# Profile for platform threads
+spring:
+  config:
+    activate:
+      on-profile: platform-threads
+  task:
+    execution:
+      pool:
+        core-size: 200
+        max-size: 500
+        queue-capacity: 1000
+
+server:
+  tomcat:
+    threads:
+      max: 500
+      min-spare: 50
+
+logging:
+  level:
+    cool.cfapps.performancedemo: INFO
+
+---
+# Profile for virtual threads
+spring:
+  config:
+    activate:
+      on-profile: virtual-threads
+  threads:
+    virtual:
+      enabled: true
+
+# Virtual threads configuration
+server:
+  tomcat:
+    threads:
+      max: 2000
+      min-spare: 100
+
+logging:
+  level:
+    cool.cfapps.performancedemo: INFO
